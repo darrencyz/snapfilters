@@ -2,25 +2,33 @@
 
 #include "ofMain.h"
 #include "ofxCv.h"
-using namespace ofxCv;
-using namespace cv;
-
+#include "Clone.h"
 #include "ofxFaceTracker.h"
+#include "ofxFaceTrackerThreaded.h"
+
+using namespace ofxCv;
 
 class ofApp : public ofBaseApp {
 public:
-	void setup();
-	void update();
-	void draw();
-	void keyPressed(int key);
-	
-	ofVideoGrabber cam;
-	ofxFaceTracker tracker;
-	ofVec2f position;
-	float scale;
-	ofVec3f orientation;
-	ofMatrix4x4 rotationMatrix;
-	
-	Mat translation, rotation;
-	ofMatrix4x4 pose;
+    void setup();
+    void update();
+    void draw();
+    void loadFace(string face);
+    
+    ofVideoGrabber cam;
+    ofxFaceTracker tracker;
+    ExpressionClassifier classifier;
+    
+    ofxFaceTrackerThreaded camTracker;
+    
+    ofxFaceTracker srcTracker;
+    ofImage src;
+    vector<ofVec2f> srcPoints;
+    
+    bool cloneReady;
+    Clone clone;
+    ofFbo srcFbo, maskFbo;
+    
+    ofDirectory faces;
+    int currentFace;
 };
